@@ -53,7 +53,7 @@ dvc remote modify --local uberduck user $API_KEY
 dvc remote modify --local uberduck password $API_SECRET
 ```
 
-`$API_KEY` and `$API_SECRET` are your Uberduck Developer key and secret. You'll soon be able to retrieve them from your [Uberduck Manage Account page](https://uberduck.ai/account/manage). Until then, ask staff in Discord to help you get an API key.
+`$API_KEY` and `$API_SECRET` are your Uberduck Developer key and secret. You can create these credentials on your [Uberduck Manage Account page](https://uberduck.ai/account/manage).
 
 8. Push your DVC files. This command will upload your dataset, so it might take some time to complete.
 
