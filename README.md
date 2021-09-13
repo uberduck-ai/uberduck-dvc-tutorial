@@ -4,61 +4,40 @@ This is a tutorial on managing your audio datasets using [Git](https://git-scm.c
 
 1. Make sure you have Git and DVC installed. [Install Git here](). [Install DVC here](https://dvc.org/doc/install)
 
-2. Open up a terminal and `cd` to the root directory of your dataset. For example:
+2. Go to the [`tts-dataset-template`](https://git.uberduck.ai/zwf/tts-dataset-template) and click "Use this template". Give your dataset a name and short description, and make sure `Git Content (Default Branch)` is checked at the bottom under `Template Items`. Then create the repository.
+
+3. Clone your newly created repository. Running this command will prompt you for a username and password. Enter your username as the username. For the password, you can [create an access token](https://git.uberduck.ai/user/settings/applications) and use that.
 
 ```bash
-cd ~/data/LJSpeech
+git clone https://git.uberduck.ai/your-username/Your-Repo.git
+cd Your-Repo
 ```
 
-3. Initialize the Git repository:
+4. Track your audio files with DVC (assuming they are in a directory called `wavs`):
 
 ```bash
-git init
+dvc add wavs
 ```
 
-4. Initialize the DVC project:
+This command will tell Git to ignore everything inside the `wavs` directory and create a `wavs.dvc` file in its place. The `wavs.dvc` file is a small text file that contains metadata about the directory and its contents. Add this file to Git and commit.
 
 ```bash
-dvc init
-git commit -m "Initialize DVC"
+git add wavs.dvc
+git commit -m "Add dvc file"
 ```
 
-5. Push your code up to a remote Git repository. If you use https://git.uberduck.ai to host your Git repository, you can also use Uberduck to host your DVC files!
-    1. [Create a new repository](https://git.uberduck.ai/repo/create).
-    2. Add the repository: `git remote add origin http://git.uberduck.ai/your-username/your-repository.git`.
-    3. Push up your changes: `git push origin master`. Running this command will prompt you for a username and password. Enter your username as the username. For the password, you can [create an access token](https://git.uberduck.ai/user/settings/applications) and use that.
-
-
-6. Track your audio files with DVC:
+5. Push the files tracked with DVC up to a remote DVC repository. If you're using https://git.uberduck.ai to host your Git repository, you can also use Uberduck to host your DVC files! You need an Uberduck API key and API secret, which you can create on your [Uberduck Manage Account page](https://uberduck.ai/account/manage). Once you have the key and secret, configure the DVC remote:
 
 ```bash
-dvc add wavs/*.wav
-```
-
-This command will tell Git to ignore your `.wav` files (by adding them to `.gitignore`) and create a bunch of `.wav.dvc` files in their place. The `.wav.dvc` files are small text files that contain metadata about the original audio files. Add these new files to Git and commit.
-
-```bash
-git add wavs/*.dvc
-git commit -m "Create dvc files"
-```
-
-7. Push the files tracked with DVC up to a remote DVC repository. If you're using https://git.uberduck.ai to host your Git repository, you can also use Uberduck to host your DVC files! Here is how to add and configure the DVC remote:
-
-```bash
-# Add the remote
-dvc remote add -d uberduck https://api.uberduck.ai/datasets/your-username/your-repo
-# Configure authentication
-dvc remote modify uberduck auth basic
+# Authenticate to DVC
 dvc remote modify --local uberduck user $API_KEY
 dvc remote modify --local uberduck password $API_SECRET
 ```
 
-`$API_KEY` and `$API_SECRET` are your Uberduck Developer key and secret. You can create these credentials on your [Uberduck Manage Account page](https://uberduck.ai/account/manage).
-
-8. Push your DVC files. This command will upload your dataset, so it might take some time to complete.
+6. Push your DVC files. This command will upload your dataset, so it might take some time to complete.
 
 ```bash
 dvc push
 ```
 
-Congratulations! You are now storing and tracking your audio dataset with Git and DVC.
+Congratulations! You are now storing and tracking your audio dataset with Git and DVC. You can see an example dataset which was created with this tutorial at [LJSpeech-example](https://git.uberduck.ai/zwf/LJSpeech-example).
